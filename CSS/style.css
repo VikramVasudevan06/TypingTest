@@ -9,6 +9,8 @@ header{
     margin: 0;
 }
 
+
+
 #heading{
     background-color: #00121D;
     width: 100%;
@@ -23,11 +25,14 @@ header{
     position: relative;
     top: 30px;
     text-align: center;
-    font-family: 'fantasy';
+    font-family: cursive;
     color: white;
 }
 
 #navbar{
+    position:-webkit-sticky;
+    position: sticky;
+    top: 0;
     margin: 0px;
     padding: 0px;
     width:100%;
@@ -35,12 +40,12 @@ header{
     background-color: aquamarine;
 }
 .bar{
+    display: block;
     list-style: none;
     margin-top: 0px;
     margin-left: 0px;
     padding-top: 0px;
     padding-left: 0px;
-    background-color:#ff2384;
 }
 
 
@@ -51,16 +56,37 @@ header{
 }
 
 .bar li{
-    margin-right: 80 px;
+    margin-right: 80px;
     padding: 0;
     float: left;
     padding-right: 80px;
 }
 
+.page-title{
+    margin-top: 20px;
+    padding-top: 0px;
+    font-family: Optima, sans-serif;
+    font-size: 40px;
 
+}
 
+#stats{
+    position: absolute;
+    left: 100px;
+    margin-top: 30px;
+}
+
+#stats li{
+    font-size: 20px;
+}
+.container{
+    display:block;
+}
 .main-text{
+    font-size: 20px;
     position: relative;
+    width: 50%;
+    margin-top: 100px;
 }
 
 .main-text p{
@@ -69,12 +95,34 @@ header{
     left:0;
 }
 
+/*
+    Code used to make unselectable: https://stackoverflow.com/a/4448972
+*/
+*.unselectable {
+    -moz-user-select: -moz-none;
+    -khtml-user-select: none;
+    -webkit-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+ }
+
 #user-input{
     position: absolute;
     resize: none;
+    background-color: #2B3033;
+    width: 100%;
     top:0;
     left:0;
     border: none;
     outline: none;
+    color: transparent;
+    -moz-user-select: none;
+    -khtml-user-select: none;
+    -webkit-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    text-shadow: 0px 0px 0px;
+    /*visibility:hidden;
+    */
 }
 
