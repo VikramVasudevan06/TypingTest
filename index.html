@@ -7,7 +7,7 @@
         <link rel="stylesheet" type = "text/css" href="css/style.css">
     </head>
     
-    <body>
+    <body onload="randomize()">
         <header id="website-header">
             <div id="heading">
                 <h1>Typing Central</h1>
@@ -33,15 +33,15 @@
         </p>
 
         <ul class="bar" id="stats">
-            <li>Characters Passed: </li>
-            <li>Characters Missed: </li>
-            <li>Time: </li>
+            <li id="passed">Characters Passed:    </li>
+            <li id="missed">Characters Missed:    </li>
+            <li id="time">Time:    </li>
 
         </ul>
 
         <div class="main-text">
             <div>
-                <textarea name="entry" class="unselectable" id="user-input" cols="30" rows="10" onkeydown="changeColor(event)" autofocus></textarea>
+                <textarea name="entry" class="unselectable" id="user-input" cols="30" rows="10" onkeypress="changeColor(event)" onkeydown="remove(event)" autofocus></textarea>
             </div>
             <!--attempting to use this p as the actual text, and then the above text area as where user input occurs-->
 

@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+
+<html>
+    <head>
+        <title>Training</title>
+        <meta name="description" content="webpage that allows users to train to perfect their typing skills">
+        <meta name="keywords" content="upper, middle, lower, training, number line">
+        <link rel="stylesheet" type = "text/css" href="css/style.css">
+    </head>
+
+    <body>
+        <header id="website-header">
+            <div id="heading">
+                <h1>Typing Central</h1>
+            </div>
+        </header>
+
+        <nav id="navbar">
+            <ul class="bar">
+                <li><a href="index.html">Tests</a></li>
+                <li><a href="training.html">Training</a></li>
+                <li><a href="stats.html">Stats</a></li>
+                <li><a href="achievements.html">Achievements</a></li>
+                <li><a href="about.html">About</a></li>
+            </ul>
+        </nav>
+
+        <h1 class="page-title">Training</h1>
+
+        <br>
+
+        <div>
+            <ul id="options">
+                <li><button>Words</button></li>
+                <li><button>Upper-Row</button></li>
+                <li><button>Middle-Row</button></li>
+                <li><button>Bottom-Row</button></li>
+                <li><button>Number-Key</button></li>
+                <li><button>Punctuation</button></li>
+                
+                
+            </ul>
+        </div>
+
+        <br>
+        <br>
+
+        <ul class="bar" id="stats">
+            <li id="passed">Characters Passed:    </li>
+            <li id="missed">Characters Missed:    </li>
+            <li id="time">Time:    </li>
+
+        </ul>
+
+        <div class="main-text">
+            <div>
+                <textarea name="entry" class="unselectable" id="user-input" cols="30" rows="10" onkeypress="changeColor(event)" onkeydown="remove(event)" autofocus></textarea>
+            </div>
+            <!--attempting to use this p as the actual text, and then the above text area as where user input occurs-->
+
+            <div>
+                <p id="testing-text" unselectable="on" class="unselectable">lorem, ipsum dolor sit amet consectetur adipisicing elit. Dolorem temporibus doloremque consequuntur cum non fuga. Delectus iure, rem recusandae voluptatum, quae cum corrupti earum repellendus ratione atque esse optio porro.</p>
+            </div>
+            
+
+        </div>
+
+
+        <script src="testing.js"></script>
+
+
+
+    </body>
+
+
+
+
+
+
+</html>
