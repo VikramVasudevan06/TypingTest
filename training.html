@@ -9,6 +9,22 @@
     </head>
 
     <body>
+        <div class="pop-up" id="pop-up">
+            <div class="pop-up-inner">
+                <h2>Statistics</h2>
+
+                <ul>
+                    <li>WPM: </li>
+                    <li>Accuracy: </li>
+                    <li>Characters Passed: </li>
+                    <li>Characters Missed: </li>
+                </ul>
+
+                <button id="close" onclick="closePop()"> Close</button>
+
+            </div>
+
+        </div>
         <header id="website-header">
             <div id="heading">
                 <h1>Typing Central</h1>
@@ -31,12 +47,12 @@
 
         <div>
             <ul id="options">
-                <li><button>Words</button></li>
-                <li><button>Upper-Row</button></li>
-                <li><button>Middle-Row</button></li>
-                <li><button>Bottom-Row</button></li>
-                <li><button>Number-Key</button></li>
-                <li><button>Punctuation</button></li>
+                <li><button id="words" onclick="randomize()">Words</button></li>
+                <li><button id="upper-row" onclick="specificRow(this.id)">Upper-Row</button></li>
+                <li><button id="middle-row" onclick="specificRow(this.id)">Middle-Row</button></li>
+                <li><button id="bottom-row" onclick="specificRow(this.id)">Bottom-Row</button></li>
+                <li><button id="number-key" onclick="specificRow(this.id)">Number-Key</button></li>
+                <li><button id="punctuation" onclick="specificRow(this.id)">Punctuation</button></li>
                 
                 
             </ul>

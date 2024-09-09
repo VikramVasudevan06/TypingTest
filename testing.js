@@ -8,15 +8,35 @@ let firstTime = true;
 let hour = 0;
 let minute = 0;
 let second = 0;
+var textLength;
 const words = ["aardvark", "abandon", "abandonable", "abandons", "abase", "abased", "abash", "abashed", "abashedly", "abate", "abbey", "abbreviated", "abbreviator", "abdicate", "abdomen", "abhor", "abide", "abiotic", "abjection", "abjectly", "abolition", "abort", "aborted", "aboveground", "abrash", "abrasive", "abridged", "abroad", "absolutist", "absorb", "absorption", "abstain", "abusive", "academic"];
 
-setInterval(clock, 10);
+const upperRow = ["q", "w", "e", "r", "t", "y", "u", "i", "o", "p"];
+const middleRow = ["a", "s", "d", "f", "g", "h", "j", "k", "l"];
+const bottomRow = ["z", "x", "c", "v", "b", "n", "m"];
+const numberKey = ["1", "2", "3", "4", "5", "6", "7", "8", "9", "0"];
+const punctuation = ["!", ",", ".", "?", "'", "-", ":", ";", "/"];
 
 
 var substringOne = "";
 
 var count = 0;
 let clockIterator = 0;
+
+
+function resetVars(){
+    characters = 0;
+    charactersPassed = 0;
+    charactersMissed = 0;
+
+    firstTime = true;
+    hour = 0;
+    minute = 0;
+    second = 0;
+    substringOne = "";
+    count = 0;
+    clockIterator = 0;
+}
 
 function randomize(){
     let testingText = document.getElementById("testing-text");
@@ -31,34 +51,82 @@ function randomize(){
     
 }
 
+function specificRow(clickId){
+    let givenArray;
+    if(clickId == "upper-row"){
+        givenArray = upperRow;
+    }
+    else if(clickId == "middle-row"){
+        givenArray = middleRow;
+    }
+    else if(clickId == "bottom-row"){
+        givenArray = bottomRow;
+    }
+    else if(clickId == "number-key"){
+        givenArray = numberKey;
+    }
+
+    let testingText = document.getElementById("testing-text");
+    let text = "";
+    
+    let iterator = 0;
+
+    while(iterator < 100){
+        for(let i = 0; i < Math.floor(Math.random() * 10); i++){
+            text = text + givenArray[Math.floor(Math.random() * (givenArray.length - 1))];
+        }
+        text = text + " ";
+        iterator++;
+    }
+
+    testingText.innerHTML = text;
+
+
+    let userText = document.getElementById("user-input");
+    userText.focus();
+    userText.value = "";
+    document.getElementById("passed").innerHTML = "Characters Passed: ";
+    document.getElementById("missed").innerHTML = "Characters Missed: ";
+    console.log("Running this thing");
+    console.log(givenArray);
+    resetVars();
+}
+
 function clock(){
-    console.log("RUNNING THE CLOCK STUFF");
     clockIterator++;
-    if(clockIterator == 100){
+    let secondDisplay = "";
+    let minuteDisplay = "";
+    if(clockIterator % 100 == 0 && clockIterator != 0){
         second++;
     }
 
-    if(second == 60){
+    if(second % 60 == 0 && second != 0){
         minute++;
         second = 0;
     }
-    if(minute == 60){
+    if(minute % 60 == 0 && minute != 0){
         hour++;
         minute = 0;
     }
 
     if(second < 10){
-        second = "0" + second;
+        secondDisplay = "0" + second;
+    }
+    else{
+        secondDisplay = second;
     }
 
     if(minute < 10){
-        minute = "0" + minute;
+        minuteDisplay = "0" + minute;
+    }
+    else{
+        minuteDisplay = minute;
     }
 
     let timer = document.getElementById("time");
     let timerText = timer.innerText;
-    timerText = timerText.substring(0, 12);
-    timerText = timerText + hour + ":" + minute + ":" + second;
+    timerText = timerText.substring(0, 5);
+    timerText = timerText + hour + ":" + minuteDisplay + ":" + secondDisplay;
     timer.innerHTML = timerText;
 
 
@@ -113,6 +181,17 @@ function remove(event){
     }
 }
 
+const pop = document.getElementById("pop-up");
+
+function openPop(){
+    console.log(pop.classList);
+    pop.classList.add("open");
+    console.log("IT'S OPEN NOW");
+}
+
+function closePop(){
+    pop.classList.remove("open");
+}
 
 function changeColor(event)
 {
@@ -120,12 +199,18 @@ function changeColor(event)
 
     console.log(substringOne + "SUBSTRING");
 
-    firstTime = false;
+
+    
     //https://stackoverflow.com/questions/20806059/how-to-change-colors-of-individual-characters-in-a-header
     let x = document.getElementById("testing-text");
         let txt = x.innerText;
         
-        console.log(txt.charAt(2));
+        if(firstTime == true){
+            console.log("text length: " + txt.length);
+            textLength = txt.length;
+            setInterval(clock, 10);
+        }
+        firstTime = false;
         let partOne = txt.substring(0, characters);
         
         if(event.key == txt[characters]){
@@ -148,11 +233,15 @@ function changeColor(event)
             
             characters++;
         }
-        console.log(txt.charAt(2));
         console.log("SUBSTRING ONE" + substringOne);
         
         x.innerHTML = txt;
         updateStatistics();
+
+        if((charactersPassed + charactersMissed) == textLength){
+            console.log("IN HERE");
+            openPop();
+        }
         count++;
 
         
