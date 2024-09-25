@@ -4,6 +4,13 @@ body{
     background-color: #2B3033;
     color: white;
 }
+button{
+    text-align: center;
+    font-size: 20px;
+    border-radius: 12px;
+    background-color: #676767;
+    color: turquoise;
+}
 header{
     padding:0;
     margin: 0;
@@ -13,11 +20,80 @@ header{
 
     opacity: 0;
     position: absolute;
+    width: 100%;
+    height: 60%;
     top: 50%;
     left: 50%;
-    transform: translate(-50%, -50%);
+    transform: translate(-25%, -50%);
     display: none;
 
+}
+
+#stats-page{
+    list-style: none;
+    display: inline-table;
+}
+
+#stats-page li{
+    font-size: 20px;
+}
+
+#time-button{
+    margin-right: 30px;
+}
+
+#wpm{
+    position: relative;
+    top: 50px;
+    left: 50px;
+}
+#choice{
+    display: inline-block;
+    float: right;
+}
+#choice button{
+    background-color: transparent;
+    border-radius: 0px;
+    border-width: 1px;
+}
+
+#choice li{
+    margin-right: -80px;
+}
+
+#accuracy{
+    position: relative;
+    top: 50px;
+    left: 200px;
+}
+
+#statsPassed{
+    position: relative;
+    top: 130px;
+}
+
+#statsMissed{
+    position: relative;
+    top: 130px;
+    left: 200px;
+}
+
+.pop-up-inner{
+    background-color: #2B3033;
+    border-style: solid;
+    border-width: 5px;
+    border-color: turquoise;
+    width: 50%;
+    height: auto;
+    z-index: 999;
+}
+
+#close{
+    position: relative;
+    top: 225px;
+    left: 150px;
+    margin: 0;
+    align-self: center;
 }
 
 .pop-up.open{
@@ -101,13 +177,7 @@ header{
     margin-top: 30px;
 }
 
-button{
-    text-align: center;
-    font-size: 20px;
-    border-radius: 12px;
-    background-color: #676767;
-    color: turquoise;
-}
+
 
 #stats li{
     font-size: 20px;
@@ -119,6 +189,7 @@ button{
     font-size: 30px;
     position: relative;
     width: 80%;
+    max-height: 150px;
     margin-top: 100px;
     margin-left: 100px;
     margin-bottom: 40px;

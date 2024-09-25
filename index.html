@@ -7,17 +7,17 @@
         <link rel="stylesheet" type = "text/css" href="css/style.css">
     </head>
     
-    <body onload="randomize()">
+    <body onload="randomize()" onload="initialSetColor()">
 
         <div class="pop-up" id="pop-up">
             <div class="pop-up-inner">
                 <h2>Statistics</h2>
 
-                <ul>
-                    <li>WPM: </li>
-                    <li>Accuracy: </li>
-                    <li>Characters Passed: </li>
-                    <li>Characters Missed: </li>
+                <ul id="stats-page">
+                    <li id="wpm">WPM </li>
+                    <li id="accuracy">Accuracy </li>
+                    <li id="statsPassed">Characters Passed </li>
+                    <li id="statsMissed">Characters Missed </li>
                 </ul>
 
                 <button id="close" onclick="closePop()"> Close</button>
@@ -25,7 +25,7 @@
             </div>
 
         </div>
-        
+
         <header id="website-header">
             <div id="heading">
                 <h1>Typing Central</h1>
@@ -38,9 +38,19 @@
                 <li><a href="training.html">Training</a></li>
                 <li><a href="stats.html">Stats</a></li>
                 <li><a href="achievements.html">Achievements</a></li>
-                <li><a href="about.html">About</a></li>
             </ul>
         </nav>
+
+        <ul id="choice" class="bar">
+            <li><button id="words-button" onclick="buttonColors(this.id)">words</button></li>
+            <li><button id="time-button" onclick="buttonColors(this.id)">time</button></li>
+            <li><button id="firstnum" onclick="buttonColors(this.id)">10</button></li>
+            <li><button id="secondnum" onclick="buttonColors(this.id)">20</button></li>
+            <li><button id="thirdnum" onclick="buttonColors(this.id)">50</button></li>
+            <li><button id="fourthnum" onclick="buttonColors(this.id)">100</button></li>
+            <li><button id="fifthnum" onclick="buttonColors(this.id)">200</button></li>
+
+        </ul>
         
         <br>
         <h1 class="page-title">Let's Start Typing</h1>
@@ -57,14 +67,17 @@
 
         </ul>
 
-        <div class="main-text">
+        <div class="main-text" id="main-text">
             <div>
                 <textarea name="entry" class="unselectable" id="user-input" cols="30" rows="10" onkeypress="changeColor(event)" onkeydown="remove(event)" autofocus></textarea>
             </div>
             <!--attempting to use this p as the actual text, and then the above text area as where user input occurs-->
 
             <div>
-                <p id="testing-text" unselectable="on" class="unselectable">lorem, ipsum dolor sit amet consectetur adipisicing elit. Dolorem temporibus doloremque consequuntur cum non fuga. Delectus iure, rem recusandae voluptatum, quae cum corrupti earum repellendus ratione atque esse optio porro.</p>
+                <p id="testing-text" unselectable="on" class="unselectable">
+                   
+                
+                </p>
             </div>
             
 
