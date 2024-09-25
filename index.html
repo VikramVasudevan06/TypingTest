@@ -13,12 +13,25 @@
             <div class="pop-up-inner">
                 <h2>Statistics</h2>
 
-                <ul id="stats-page">
-                    <li id="wpm">WPM </li>
-                    <li id="accuracy">Accuracy </li>
-                    <li id="statsPassed">Characters Passed </li>
-                    <li id="statsMissed">Characters Missed </li>
-                </ul>
+                <table id="stats-page">
+
+                        <tr>
+                            <td class="question" id="wpm">WPM </td>
+                            <td class="question" id="accuracy">Accuracy </td>
+                        </tr>  
+                        <tr>
+                            <td class="answer" id="wpmAnswer">7</td>
+                            <td class="answer" id="accuracyAnswer">15</td>
+                        </tr>  
+                        <tr>
+                            <td class="question" id="statsPassed">Characters Passed </td>
+                            <td class="question" id="statsMissed">Characters Missed </td>
+                        </tr>
+                        <tr>
+                            <td class="answer" id="statsPassedAnswer"></td>
+                            <td class="answer" id="statsMissedAnswer"> </td>
+                        </tr>
+                </table>
 
                 <button id="close" onclick="closePop()"> Close</button>
 

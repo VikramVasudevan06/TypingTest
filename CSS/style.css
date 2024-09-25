@@ -29,23 +29,37 @@ header{
 
 }
 
-#stats-page{
-    list-style: none;
-    display: inline-table;
-}
 
-#stats-page li{
-    font-size: 20px;
-}
+
 
 #time-button{
     margin-right: 30px;
 }
+.answer{
+    font-size: 40px;
+}
+
+#stats-page{
+    position: relative;
+    right: 0px;
+}
+
+#stats-page tr{
+    position: relative;
+    right: 0px;
+}
+
 
 #wpm{
     position: relative;
-    top: 50px;
-    left: 50px;
+    left: 0;
+}
+
+#wpmAnswer{
+    position: relative;
+    margin-top: 100px;
+    margin-left: 50px;
+    padding-right: 100px;
 }
 #choice{
     display: inline-block;
@@ -57,14 +71,17 @@ header{
     border-width: 1px;
 }
 
+
 #choice li{
     margin-right: -80px;
 }
 
+.question{
+    font-size: 30px;
+}
+
 #accuracy{
-    position: relative;
-    top: 50px;
-    left: 200px;
+    right: 0;
 }
 
 #statsPassed{
@@ -76,6 +93,11 @@ header{
     position: relative;
     top: 130px;
     left: 200px;
+}
+
+.tempdiv{
+    width: 50%;
+    height: auto;
 }
 
 .pop-up-inner{
@@ -90,9 +112,9 @@ header{
 
 #close{
     position: relative;
-    top: 225px;
-    left: 150px;
-    margin: 0;
+    display: block;
+    top: 200px;
+    margin: auto;
     align-self: center;
 }
 
@@ -235,4 +257,32 @@ header{
 #main-footer{
     margin-top: 20px;
     padding-top: 90px;
+}
+
+
+
+
+/*styles for stats page*/
+
+.stats-row td{
+    font-size: 25px;
+
+}
+
+.stat-answers{
+    text-align: right;
+    width: 50%;
+    color: aquamarine;
+}
+
+/*styling for achievements*/
+
+#first-achievements{
+    margin-right: 30vw;
+}
+
+
+.achievements{
+    float: left;
+    font-size: 25px;
 }

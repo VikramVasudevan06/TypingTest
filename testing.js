@@ -435,7 +435,7 @@ function changeColor(event)
         console.log(x.innerText.length);
         //fix this why is it not loading for 100
         if(substringOne.length/47 == x.innerText.length - 1 && (line == ((numWords/10) - 1) || line == maxNumRows && currentLines == numLoops)){
-        
+            userFocus.blur();
             openPop();
         }
         
@@ -443,6 +443,7 @@ function changeColor(event)
         updateStatistics();
 
         if((charactersPassed + charactersMissed) == textLength){
+            userFocus.blur();
             openPop();
         }
         count++;
