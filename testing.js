@@ -10,8 +10,9 @@ let minute = 0;
 let second = 0;
 var textLength = 0;
 var numLoops = 0;
-var numTests = 0;
-var numTrains = 0;
+var timerText;
+
+
 
 var currentOption = "words-button";
 
@@ -20,6 +21,31 @@ var clockTimer;
 var line = 0;
 var currentLines = 0;
 const maxNumRows = 5;
+
+console.log("RAHH");
+console.log(localStorage.getItem("numTests"));
+
+var numTests = 0;
+var numTrains = 0;
+var highWpm = 0;
+var highAcc = 0;
+var mostWords15 = 0;
+var mostWords30 = 0;
+var mostWords60 = 0;
+var mostWords90 = 0;
+var mostWords120 = 0;
+var fastestTime10 = "No Time";
+var fastestTime20 = "No Time";
+var fastestTime50 = "No Time";
+var fastestTime100 = "No Time";
+var fastestTime200 = "No Time";
+var fastest10Text = "No Time";
+var fastest20Text = "No Time";
+var fastest50Text = "No Time";
+var fastest100Text = "No Time";
+var fastest200Text = "No Time";
+
+
 const words = ["aardvark", "abandon", "abandonable", "abandons", "abase", "abased", "abash", "abashed", "abashedly", "abate", "abbey", "abbreviated", "abbreviator", "abdicate", "abdomen", "abhor", "abide", "abiotic", "abjection", "abjectly", "abolition", "abort", "aborted", "aboveground", "abrash", "abrasive", "abridged", "abroad", "absolutist", "absorb", "absorption", "abstain", "abusive", "academic"];
 
 const upperRow = ["q", "w", "e", "r", "t", "y", "u", "i", "o", "p"];
@@ -35,14 +61,16 @@ var count = 0;
 let clockIterator = 0;
 
 
+
+window.onunload=function(){
+    clearInterval(clockTimer);
+}
+
 window.onload=function(){
     resetVars();
     randomize(20);
     initialSetColor();
 }
-
-
-
 
 function initialSetColor(){
     document.getElementById(currentOption).style.backgroundColor =  "#ebd600";
@@ -116,6 +144,8 @@ function buttonColors(eventId){
     
     
 }
+
+
 
 function resetSpans(){    
     while(document.getElementsByTagName("span")[0] != undefined){
@@ -265,7 +295,7 @@ function clock(){
     }
 
     let timer = document.getElementById("time");
-    let timerText = timer.innerText;
+    timerText = timer.innerText;
     timerText = timerText.substring(0, 5);
     timerText = timerText + hour + ":" + minuteDisplay + ":" + secondDisplay;
     timer.innerHTML = timerText;
@@ -329,15 +359,173 @@ function remove(event){
 
 const pop = document.getElementById("pop-up");
 
+
+function setStatVars(){
+    if(localStorage.getItem("numTests") != null){
+        numTests = localStorage.getItem("numTests");
+    }
+    if(localStorage.getItem("numTrains") != null){
+        numTrains = localStorage.getItem("numTrains");
+    }
+    if(localStorage.getItem("highWpm") != null){
+        highWpm = localStorage.getItem("highWpm");
+    }
+    if(localStorage.getItem("highAcc") != null){
+        highAcc = localStorage.getItem("highAcc");
+    }
+    if(localStorage.getItem("mostWords15") != null){
+        mostWords15 = localStorage.getItem("mostWords15");
+    }
+    if(localStorage.getItem("mostWords30") != null){
+        mostWords30 = localStorage.getItem("mostWords30");
+    }
+    if(localStorage.getItem("mostWords60") != null){
+        mostWords60 = localStorage.getItem("mostWords60");
+    }
+    if(localStorage.getItem("mostWords90") != null){
+        mostwords90 = localStorage.getItem("mostWords90");
+    }
+    if(localStorage.getItem("mostWords120") != null){
+        mostWords120 = localStorage.getItem("mostWords120");
+    }
+    if(localStorage.getItem("fastestTime10") != null){
+        fastestTime10 = localStorage.getItem("fastestTime10");
+    }
+    if(localStorage.getItem("fastestTime20") != null){
+        fastestTime20 = localStorage.getItem("fastestTime20");
+    }
+    if(localStorage.getItem("fastestTime50") != null){
+        fastestTime50 = localStorage.getItem("fastestTime50");
+    }
+    if(localStorage.getItem("fastestTime100") != null){
+        fastestTime100 = localStorage.getItem("fastestTime100");
+    }
+    if(localStorage.getItem("fastestTime200") != null){
+        fastestTime200 = localStorage.getItem("fastestTime200");
+    }
+    if(localStorage.getItem("fastest10Text") != null){
+        fastest10Text = localStorage.getItem("fastest10Text");
+    }
+    if(localStorage.getItem("fastest20Text") != null){
+        fastest20Text = localStorage.getItem("fastest20Text");
+    }
+    if(localStorage.getItem("fastest50Text") != null){
+        fastest50Text = localStorage.getItem("fastest50Text");
+    }
+    if(localStorage.getItem("fastest100Text") != null){
+        fastest100Text = localStorage.getItem("fastest100Text");
+    }
+    if(localStorage.getItem("fastest200Text") != null){
+        fastest200Text = localStorage.getItem("fastest200Text");
+    }
+    
+}
+
+function setStats(){
+
+    localStorage.setItem("numTests", numTests);
+    localStorage.setItem("numTrains", numTrains);
+    localStorage.setItem("highWpm", highWpm);
+    localStorage.setItem("highAcc", highAcc);
+    localStorage.setItem("mostWords15", mostWords15);
+    localStorage.setItem("mostWords30", mostWords30);
+    localStorage.setItem("mostWords60", mostWords60);
+    localStorage.setItem("mostWords90", mostWords90);
+    localStorage.setItem("mostWords120", mostWords120);
+    localStorage.setItem("fastestTime10", fastestTime10);
+    localStorage.setItem("fastestTime20", fastestTime20);
+    localStorage.setItem("fastestTime50", fastestTime50);
+    localStorage.setItem("fastestTime100", fastestTime100);
+    localStorage.setItem("fastestTime200", fastestTime200);
+    localStorage.setItem("fastest10Text", fastest10Text);
+    localStorage.setItem("fastest20Text", fastest20Text);
+    localStorage.setItem("fastest50Text", fastest50Text);
+    localStorage.setItem("fastest100Text", fastest100Text);
+    localStorage.setItem("fastest200Text", fastest200Text);
+
+}
+
 function openPop(){
+    setStatVars();
+    console.log("IN THE OPENED POP");
     numTests++;
-    console.log("NUMWORDS: " + numWords);
     let totalTime = (3600*hour + 60*minute + second)/60;
     let wordsPer = Math.round(numWords/totalTime);
-    console.log(wordsPer);
+    let acc = Math.round(charactersPassed/(charactersMissed + charactersPassed) * 100);
+    if(wordsPer > highWpm){
+        highWpm = wordsPer;
+        console.log("IN HERE THE WPM CHANGED");
+        console.log(highWpm);
+    }
+    if(acc > highAcc){
+        highAcc = acc;
+    }
+    if(currentOption == "time-button"){
+        if(acc == 100){
+            if(currentNum == "firstnum"){
+                if(numWords > mostWords15){
+                    mostWords15 = numWords;
+                }
+            }
+            else if(currentNum == "secondnum"){
+                if(numWords > mostWords30){
+                    mostWords30 = numWords;
+                }
+            }
+            else if(currentNum == "thirdnum"){
+                if(numWords > mostWords60){
+                    mostWords60 = numWords;
+                }
+            }
+            else if(currentNum == "fourthnum"){
+                if(numWords > mostWords90){
+                    mostWords90 = numWords;
+                }
+            }
+            else if(currentNum == "fifthnum"){
+                if(numWords > mostWords120){
+                    mostWords120 = numWords;
+                }
+            }
+        }
+    }
+    else if(currentOption == "words-button"){
+        console.log("IS TIMER TEXT REAL?: " + timerText);
+        let thisRunTime = second + 60*minute + 3600*hour;
+        if(currentNum == "firstnum"){
+            if(fastestTime10 == "No Time" || thisRunTime < fastestTime10){
+                fastestTime10 = thisRunTime;
+                fastest10Text = timerText;
+            }
+        }
+        else if(currentNum == "secondnum"){
+            if(fastestTime20 == "No Time" || thisRunTime < fastestTime20){
+                fastestTime20 = thisRunTime;
+                fastest20Text = timerText;
+            }
+        }
+        else if(currentNum == "thirdnum"){
+            if(fastestTime50 == "No Time" || thisRunTime < fastestTime50){
+                fastestTime50 = thisRunTime;
+                fastest50Text = timerText;
+            }
+        }
+        else if(currentNum == "fourthnum"){
+            if(fastestTime100 == "No Time" || thisRunTime < fastestTime100){
+                fastestTime100 = thisRunTime;
+                fastest100Text = timerText;
+            }
+        }
+        else if(currentNum == "fifthnum"){
+            if(fastestTime200 == "No Time" || thisRunTime < fastestTime200){
+                fastestTime200 = thisRunTime;
+                fastest200Text = timerText;
+            }
+        }
+    }
+    setStats();
     clearInterval(clockTimer);
     console.log(pop.classList);
-    wpmText = document.getElementById("wpm").innerText;
     pop.classList.add("open");
     console.log("IT'S OPEN NOW");
 }
@@ -452,3 +640,13 @@ function changeColor(event)
 
 
 
+
+
+//code for training randomization
+
+function trainingRandom(){
+    resetVars();
+    for(let i = 0; i < 5; i++){
+        randomize(10);
+    }
+}
