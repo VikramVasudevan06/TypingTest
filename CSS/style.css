@@ -17,16 +17,15 @@ header{
 }
 
 .pop-up{
-
+    place-self: center;
+    place-content: center;
     opacity: 0;
     position: absolute;
     width: 100%;
-    height: 60%;
-    top: 50%;
-    left: 50%;
-    transform: translate(-25%, -50%);
+    height: 350px;
+    top: 25.5%;
     display: none;
-
+    z-index: 1000;
 }
 
 
@@ -53,13 +52,12 @@ header{
 #wpm{
     position: relative;
     left: 0;
+    width: 450px;
 }
 
 #wpmAnswer{
     position: relative;
-    margin-top: 100px;
-    margin-left: 50px;
-    padding-right: 100px;
+    text-align: right;
 }
 #choice{
     display: inline-block;
@@ -78,22 +76,11 @@ header{
 
 .question{
     font-size: 30px;
+    height: max-height/10;
 }
 
-#accuracy{
-    right: 0;
-}
 
-#statsPassed{
-    position: relative;
-    top: 130px;
-}
 
-#statsMissed{
-    position: relative;
-    top: 130px;
-    left: 200px;
-}
 
 .tempdiv{
     width: 50%;
@@ -105,7 +92,7 @@ header{
     border-style: solid;
     border-width: 5px;
     border-color: turquoise;
-    width: 50%;
+    width: 35%;
     height: auto;
     z-index: 999;
 }
@@ -113,7 +100,7 @@ header{
 #close{
     position: relative;
     display: block;
-    top: 200px;
+    top: 15px;
     margin: auto;
     align-self: center;
 }
@@ -278,7 +265,7 @@ header{
 /*styling for achievements*/
 
 #first-achievements{
-    margin-right: 30vw;
+    margin-right: 26vw;
 }
 
 

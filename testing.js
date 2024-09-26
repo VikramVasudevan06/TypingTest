@@ -14,7 +14,7 @@ var timerText;
 
 
 
-var currentOption = "words-button";
+var currentOption = "time-button";
 
 var currentNum = "thirdnum";
 var clockTimer;
@@ -22,6 +22,7 @@ var line = 0;
 var currentLines = 0;
 const maxNumRows = 5;
 
+console.log(window.innerHeight);
 console.log("RAHH");
 console.log(localStorage.getItem("numTests"));
 
@@ -59,6 +60,7 @@ var substringOne = "";
 var rowCount = 0;
 var count = 0;
 let clockIterator = 0;
+var location;
 
 
 
@@ -67,9 +69,12 @@ window.onunload=function(){
 }
 
 window.onload=function(){
-    resetVars();
-    randomize(20);
-    initialSetColor();
+    if(document.URL.includes("index.html")){
+        resetVars();
+        randomize(20);
+        initialSetColor();
+    }
+    
 }
 
 function initialSetColor(){
@@ -86,6 +91,7 @@ function buttonColors(eventId){
     let fourthButton = document.getElementById("fourthnum");
     let fifthButton = document.getElementById("fifthnum");
     resetVars();
+    numLoops = Number(document.getElementById(currentNum).innerText)/10;
     let button = document.getElementById(eventId);
     let tempButton;
     button.style.backgroundColor = "#ebd600";
@@ -151,7 +157,13 @@ function resetSpans(){
     while(document.getElementsByTagName("span")[0] != undefined){
         console.log(document.getElementsByTagName("span")[0]);
         document.getElementsByTagName("span")[0].remove();
-        document.getElementsByTagName("br")[1].remove();
+        if(document.URL.includes("index.html")){
+            document.getElementsByTagName("br")[1].remove();
+        }
+        else{
+            console.log("RUNNING THIS");
+            document.getElementsByTagName("br")[3].remove();
+        }
         if(document.getElementsByTagName("span")[0]=== undefined){
             break;
         }
@@ -162,7 +174,7 @@ function resetSpans(){
 
 
 function resetVars(){
-    numLoops = Number(document.getElementById(currentNum).innerText)/10;
+    currentOption = "words-button"
     characters = 0;
     charactersPassed = 0;
     currentLines = 0;
@@ -198,6 +210,7 @@ function creatingSpans(text){
     newSpan.style.style = "white-space: pre-wrap";
     let newBreak = document.createElement("br");
     newSpan.innerHTML = substringOne;
+    console.log("NEWSPAN: " + newSpan.innerHTML);
     newSpan.style = "white-space: pre-wrap";
     paragraph.appendChild(newSpan);
     paragraph.appendChild(newBreak);
@@ -242,16 +255,24 @@ function specificRow(clickId){
     
     let iterator = 0;
 
-    while(iterator < 100){
-        for(let i = 0; i < Math.floor(Math.random() * 10); i++){
-            text = text + givenArray[Math.floor(Math.random() * (givenArray.length - 1))];
-        }
-        text = text + " ";
-        iterator++;
-    }
-    numWords = 100;
+    resetSpans();
 
-    testingText.innerHTML = text;
+    for(let k = 0; k < 5; k++){
+        text = "";
+        for(let j = 0; j < 10; j++){
+            for(let i = 0; i < 4; i++){
+                text = text + givenArray[Math.floor(Math.random() * (givenArray.length - 1))];
+                console.log("THIS TEXT: " + text);
+                console.log(j);
+            }
+            text = text + " ";
+        }
+        console.log("WHAT IS THIS TEXT: " + text);
+
+        creatingSpans(text);
+    }
+    numWords = 50;
+
 
 
     let userText = document.getElementById("user-input");
@@ -259,7 +280,6 @@ function specificRow(clickId){
     userText.value = "";
     document.getElementById("passed").innerHTML = "Characters Passed: ";
     document.getElementById("missed").innerHTML = "Characters Missed: ";
-    resetVars();
 }
 
 function clock(){
@@ -448,79 +468,92 @@ function setStats(){
 function openPop(){
     setStatVars();
     console.log("IN THE OPENED POP");
-    numTests++;
+    if(document.URL.includes("index.html")){
+        numTests++;
+    }
+    else{
+        numTrains++;
+    }
     let totalTime = (3600*hour + 60*minute + second)/60;
+    console.log("NUMWORDS: " + numWords);
     let wordsPer = Math.round(numWords/totalTime);
     let acc = Math.round(charactersPassed/(charactersMissed + charactersPassed) * 100);
-    if(wordsPer > highWpm){
-        highWpm = wordsPer;
-        console.log("IN HERE THE WPM CHANGED");
-        console.log(highWpm);
-    }
-    if(acc > highAcc){
-        highAcc = acc;
-    }
-    if(currentOption == "time-button"){
-        if(acc == 100){
+    document.getElementById("wpmAnswer").innerText = wordsPer;
+    document.getElementById("accuracyAnswer").innerText = acc;
+    document.getElementById("statsPassedAnswer").innerText = charactersPassed;
+    document.getElementById("statsMissedAnswer").innerText = charactersMissed;
+    if(document.URL.includes("index.html")){
+        if(wordsPer > highWpm){
+            highWpm = wordsPer;
+            console.log("IN HERE THE WPM CHANGED");
+            console.log(highWpm);
+        }
+        if(acc > highAcc){
+            highAcc = acc;
+        }
+        if(currentOption == "time-button"){
+            if(acc == 100){
+                if(currentNum == "firstnum"){
+                    if(numWords > mostWords15){
+                        mostWords15 = numWords;
+                    }
+                }
+                else if(currentNum == "secondnum"){
+                    if(numWords > mostWords30){
+                        mostWords30 = numWords;
+                    }
+                }
+                else if(currentNum == "thirdnum"){
+                    if(numWords > mostWords60){
+                        mostWords60 = numWords;
+                    }
+                }
+                else if(currentNum == "fourthnum"){
+                    if(numWords > mostWords90){
+                        mostWords90 = numWords;
+                    }
+                }
+                else if(currentNum == "fifthnum"){
+                    if(numWords > mostWords120){
+                        mostWords120 = numWords;
+                    }
+                }
+            }
+        }
+        else if(currentOption == "words-button"){
+            console.log("IS TIMER TEXT REAL?: " + timerText);
+            let thisRunTime = second + 60*minute + 3600*hour;
             if(currentNum == "firstnum"){
-                if(numWords > mostWords15){
-                    mostWords15 = numWords;
+                if(fastestTime10 == "No Time" || thisRunTime < fastestTime10){
+                    fastestTime10 = thisRunTime;
+                    fastest10Text = timerText;
                 }
             }
             else if(currentNum == "secondnum"){
-                if(numWords > mostWords30){
-                    mostWords30 = numWords;
+                if(fastestTime20 == "No Time" || thisRunTime < fastestTime20){
+                    fastestTime20 = thisRunTime;
+                    fastest20Text = timerText;
                 }
             }
             else if(currentNum == "thirdnum"){
-                if(numWords > mostWords60){
-                    mostWords60 = numWords;
+                if(fastestTime50 == "No Time" || thisRunTime < fastestTime50){
+                    fastestTime50 = thisRunTime;
+                    fastest50Text = timerText;
                 }
             }
             else if(currentNum == "fourthnum"){
-                if(numWords > mostWords90){
-                    mostWords90 = numWords;
+                if(fastestTime100 == "No Time" || thisRunTime < fastestTime100){
+                    fastestTime100 = thisRunTime;
+                    fastest100Text = timerText;
                 }
             }
             else if(currentNum == "fifthnum"){
-                if(numWords > mostWords120){
-                    mostWords120 = numWords;
+                if(fastestTime200 == "No Time" || thisRunTime < fastestTime200){
+                    fastestTime200 = thisRunTime;
+                    fastest200Text = timerText;
                 }
             }
-        }
-    }
-    else if(currentOption == "words-button"){
-        console.log("IS TIMER TEXT REAL?: " + timerText);
-        let thisRunTime = second + 60*minute + 3600*hour;
-        if(currentNum == "firstnum"){
-            if(fastestTime10 == "No Time" || thisRunTime < fastestTime10){
-                fastestTime10 = thisRunTime;
-                fastest10Text = timerText;
-            }
-        }
-        else if(currentNum == "secondnum"){
-            if(fastestTime20 == "No Time" || thisRunTime < fastestTime20){
-                fastestTime20 = thisRunTime;
-                fastest20Text = timerText;
-            }
-        }
-        else if(currentNum == "thirdnum"){
-            if(fastestTime50 == "No Time" || thisRunTime < fastestTime50){
-                fastestTime50 = thisRunTime;
-                fastest50Text = timerText;
-            }
-        }
-        else if(currentNum == "fourthnum"){
-            if(fastestTime100 == "No Time" || thisRunTime < fastestTime100){
-                fastestTime100 = thisRunTime;
-                fastest100Text = timerText;
-            }
-        }
-        else if(currentNum == "fifthnum"){
-            if(fastestTime200 == "No Time" || thisRunTime < fastestTime200){
-                fastestTime200 = thisRunTime;
-                fastest200Text = timerText;
-            }
+        
         }
     }
     setStats();
@@ -535,27 +568,34 @@ function closePop(){
     resetVars();
     document.getElementById("passed").innerText = "Characters Passed: " +  charactersPassed;
     document.getElementById("missed").innerText = "Characters Missed: " + charactersMissed;
-    numLoops = Number(document.getElementById(currentNum).innerText)/10
-    let text = document.getElementById("testing-text");
-    text.innerHTML = "";
-    if(currentOption == "words-button"){
-        numWords = 10*numLoops;
-    }
-    else{
-        numWords = 0;
-    }
-    
-    if(numLoops < maxNumRows){
-        for(let i = 0; i < numLoops; i++){
-            randomize(10);
-            currentLines++;
+    if(document.URL.includes("index.html")){
+        
+        console.log("THIS INCLUDE THING WORKS");
+        numLoops = Number(document.getElementById(currentNum).innerText)/10
+        let text = document.getElementById("testing-text");
+        text.innerHTML = "";
+        if(currentOption == "words-button"){
+            numWords = 10*numLoops;
+        }
+        else{
+            numWords = 0;
+        }
+        
+        if(numLoops < maxNumRows){
+            for(let i = 0; i < numLoops; i++){
+                randomize(10);
+                currentLines++;
+            }
+        }
+        else{
+            for(let i = 0; i < maxNumRows; i++){
+                randomize(10);
+                currentLines++;
+            }
         }
     }
     else{
-        for(let i = 0; i < maxNumRows; i++){
-            randomize(10);
-            currentLines++;
-        }
+        trainingRandom();
     }
 }
 
@@ -564,27 +604,34 @@ function changeColor(event)
 
     //https://stackoverflow.com/questions/20806059/how-to-change-colors-of-individual-characters-in-a-header
    
-    
+    console.log("CURRENTLINES: " + currentLines);
     let x = document.getElementsByClassName("lines")[line];
     let txt = x.innerText;
     let userFocus = document.getElementById("user-input");
-    if(currentOption == "time-button"){
+    if(document.URL.includes("index.html")){
+        if(currentOption == "time-button"){
 
-        if((60*minute + second) >= Number(document.getElementById(currentNum).innerText)){
-            userFocus.blur();
-            openPop();
-           
-        }
-        if(event.key == " "){
-            numWords++;
+            if((60*minute + second) >= Number(document.getElementById(currentNum).innerText)){
+                userFocus.blur();
+                openPop();
+            
+            }
+            if(event.key == " "){
+                numWords++;
+            }
         }
     }
-    
     if(txt.length == characters){
-        if(currentLines != numLoops || currentOption == "time-button"){
+        if(currentLines != numLoops || currentOption == "time-button" && document.URL.includes("index.html")){
             randomize(10);
             document.getElementsByTagName("span")[0].remove();
-            document.getElementsByTagName("br")[1].remove();
+            if(document.URL.includes("index.html")){
+                document.getElementsByTagName("br")[1].remove();
+            }
+            else{
+                console.log("RUNNING THIS");
+                document.getElementsByTagName("br")[3].remove();
+            }
             currentLines++;
             console.log("CURRENT LINES: " + currentLines);
             console.log("CURRENT LOOPS: " + numLoops);
@@ -624,6 +671,7 @@ function changeColor(event)
         //fix this why is it not loading for 100
         if(substringOne.length/47 == x.innerText.length - 1 && (line == ((numWords/10) - 1) || line == maxNumRows && currentLines == numLoops)){
             userFocus.blur();
+            console.log("THIS ONE");
             openPop();
         }
         
@@ -632,6 +680,7 @@ function changeColor(event)
 
         if((charactersPassed + charactersMissed) == textLength){
             userFocus.blur();
+            console.log("THIS THING");
             openPop();
         }
         count++;
@@ -645,8 +694,10 @@ function changeColor(event)
 //code for training randomization
 
 function trainingRandom(){
-    resetVars();
+    resetSpans();
+    currentOption = "words-button";
     for(let i = 0; i < 5; i++){
         randomize(10);
+        numWords = 50;
     }
 }

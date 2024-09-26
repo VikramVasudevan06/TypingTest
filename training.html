@@ -8,23 +8,37 @@
         <link rel="stylesheet" type = "text/css" href="css/style.css">
     </head>
 
-    <body>
+    <body onload="trainingRandom()">
         <div class="pop-up" id="pop-up">
             <div class="pop-up-inner">
-                <h2>Statistics</h2>
+                <h2 id="stats-header">Statistics</h2>
 
-                <ul id="stats-page">
-                    <li id="wpm">WPM: </li>
-                    <li id="accuracy">Accuracy: </li>
-                    <li id="statsPassed">Characters Passed: </li>
-                    <li id="statsMissed">Characters Missed: </li>
-                </ul>
+                <table id="stats-page">
+
+                        <tr>
+                            <td class="question" id="wpm">WPM </td>
+                            <td class="answer" id="wpmAnswer"></td>
+                        </tr>  
+                        <tr>
+                            <td class="question" id="accuracy">Accuracy </td>
+                            <td class="answer" id="accuracyAnswer"></td>
+                        </tr>  
+                        <tr>
+                            <td class="question" id="statsPassed">Characters Passed </td>
+                            <td class="answer" id="statsPassedAnswer"></td>
+                        </tr>
+                        <tr>
+                            <td class="question" id="statsMissed">Characters Missed </td>
+                            <td class="answer" id="statsMissedAnswer"> </td>
+                        </tr>
+                </table>
 
                 <button id="close" onclick="closePop()"> Close</button>
 
             </div>
 
         </div>
+
         <header id="website-header">
             <div id="heading">
                 <h1>Typing Central</h1>
@@ -74,7 +88,7 @@
             <!--attempting to use this p as the actual text, and then the above text area as where user input occurs-->
 
             <div>
-                <p id="testing-text" unselectable="on" class="unselectable">lorem, ipsum dolor sit amet consectetur adipisicing elit. Dolorem temporibus doloremque consequuntur cum non fuga. Delectus iure, rem recusandae voluptatum, quae cum corrupti earum repellendus ratione atque esse optio porro.</p>
+                <p id="testing-text" unselectable="on" class="unselectable"></p>
             </div>
             
 
