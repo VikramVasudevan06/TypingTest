@@ -1,3 +1,4 @@
+//displaying stats on the stats html page
 function displayStats(){
     document.getElementById("num-tests").innerText = localStorage.getItem("numTests");
     document.getElementById("num-train").innerText = localStorage.getItem("numTrains");

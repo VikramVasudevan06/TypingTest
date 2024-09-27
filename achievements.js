@@ -1,3 +1,5 @@
+
+//setting achievements on the achievements html page
 function setAchievements(){
     if(localStorage.getItem("numTests") > 0){
         document.getElementById("beginner").innerHTML = "<span>&#9989;</span>";
