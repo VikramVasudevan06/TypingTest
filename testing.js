@@ -565,34 +565,36 @@ function openPop(){
         }
         else if(currentOption == "words-button"){
             let thisRunTime = second + 60*minute + 3600*hour;
-            if(currentNum == "firstnum"){
-                if(fastestTime10 == "No Time" || thisRunTime < fastestTime10){
-                    fastestTime10 = thisRunTime;
-                    fastest10Text = timerText;
+            if(acc == 100){
+                if(currentNum == "firstnum"){
+                    if(fastestTime10 == "No Time" || thisRunTime < fastestTime10){
+                        fastestTime10 = thisRunTime;
+                        fastest10Text = timerText;
+                    }
                 }
-            }
-            else if(currentNum == "secondnum"){
-                if(fastestTime20 == "No Time" || thisRunTime < fastestTime20){
-                    fastestTime20 = thisRunTime;
-                    fastest20Text = timerText;
+                else if(currentNum == "secondnum"){
+                    if(fastestTime20 == "No Time" || thisRunTime < fastestTime20){
+                        fastestTime20 = thisRunTime;
+                        fastest20Text = timerText;
+                    }
                 }
-            }
-            else if(currentNum == "thirdnum"){
-                if(fastestTime50 == "No Time" || thisRunTime < fastestTime50){
-                    fastestTime50 = thisRunTime;
-                    fastest50Text = timerText;
+                else if(currentNum == "thirdnum"){
+                    if(fastestTime50 == "No Time" || thisRunTime < fastestTime50){
+                        fastestTime50 = thisRunTime;
+                        fastest50Text = timerText;
+                    }
                 }
-            }
-            else if(currentNum == "fourthnum"){
-                if(fastestTime100 == "No Time" || thisRunTime < fastestTime100){
-                    fastestTime100 = thisRunTime;
-                    fastest100Text = timerText;
+                else if(currentNum == "fourthnum"){
+                    if(fastestTime100 == "No Time" || thisRunTime < fastestTime100){
+                        fastestTime100 = thisRunTime;
+                        fastest100Text = timerText;
+                    }
                 }
-            }
-            else if(currentNum == "fifthnum"){
-                if(fastestTime200 == "No Time" || thisRunTime < fastestTime200){
-                    fastestTime200 = thisRunTime;
-                    fastest200Text = timerText;
+                else if(currentNum == "fifthnum"){
+                    if(fastestTime200 == "No Time" || thisRunTime < fastestTime200){
+                        fastestTime200 = thisRunTime;
+                        fastest200Text = timerText;
+                    }
                 }
             }
         
