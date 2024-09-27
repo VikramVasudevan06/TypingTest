@@ -1,3 +1,5 @@
+
+/*styling for testing/training pages*/
 body{
     margin: 0;
     padding: 0;
@@ -27,7 +29,6 @@ header{
     display: none;
     z-index: 1000;
 }
-
 
 
 
@@ -79,13 +80,6 @@ header{
     height: max-height/10;
 }
 
-
-
-
-.tempdiv{
-    width: 50%;
-    height: auto;
-}
 
 .pop-up-inner{
     background-color: #2B3033;
@@ -237,11 +231,12 @@ header{
     -ms-user-select: none;
     user-select: none;
     text-shadow: 0px 0px 0px;
-    /*visibility:hidden;
-    */
+
 }
 
 #main-footer{
+    position: absolute;
+    bottom: 0px;
     margin-top: 20px;
     padding-top: 90px;
 }
@@ -272,4 +267,16 @@ header{
 .achievements{
     float: left;
     font-size: 25px;
+}
+
+.achievements li{
+    list-style: none;
+}
+
+.achievements li::before{
+    content: '✅';
+}
+
+#custom-bullet{
+    font-size: 40px;
 }

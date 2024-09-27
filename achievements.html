@@ -7,7 +7,7 @@
         <link rel="stylesheet" type = "text/css" href="css/style.css">
     </head>
 
-    <body>
+    <body onload="setAchievements()">
         <header id="website-header">
             <div id="heading">
                 <h1>Typing Central</h1>
@@ -29,29 +29,31 @@
         <h1 class="page-title">Achievements</h1>
 
         <ul class="achievements" id="first-achievements">
-            <li><span class="achievement-text">Beginner: Complete Your First Test!</span></li>
-            <li><span class="achievement-text">Worker: Complete Ten Tests!</span></li>
-            <li><span class="achievement-text">Professional: Complete 100 Tests!</span></li>
-            <li><span class="achievement-text">Steady: Reach 60 WPM</span></li>
-            <li><span class="achievement-text">Quick: Reach 80 WPM</span></li>
-            <li><span class="achievement-test">Lightning: Reach 100 WPM</span></li>
-            <li><span class="achievement-test">Light-Speed: Reach 150 WPM</span></li>
-            <li><span class="achievement-test">Learner: Complete a Training Exercise</span></li>
+            <p><span id="beginner"><span>&#10060;</span></span>Beginner: Complete Your First Test!</p>
+            <p><span id="worker"><span>&#10060;</span></span>Worker: Complete Ten Tests!</p>
+            <p><span id="professional"><span>&#10060;</span></span>Professional: Complete 100 Tests!</p>
+            <p><span id="steady"><span>&#10060;</span></span>Steady: Reach 60 WPM</p>
+            <p><span id="quick"><span>&#10060;</span></span>Quick: Reach 80 WPM</p>
+            <p><span id="lightning"><span>&#10060;</span></span>Lightning: Reach 100 WPM</p>
+            <p><span id="light-speed"><span>&#10060;</span></span>Light-Speed: Reach 150 WPM</p>
+            <p><span id="learner"><span>&#10060;</span></span>Learner: Complete a Training Exercise</p>
         </ul>
 
         <ul class="achievements" id="second-achievements">
-            <li><span>Train on the Upper Row</li>
-            <li>Train on the Middle Row</li>
-            <li>Train on the Bottom Row</li>
-            <li>Train on the Number Key</li>
-            <li>Train on Punctuation</li>
-            <li>Ballpark: Complete a Test with 50% Accuracy</li>
-            <li>Getting Better: Complete a Test with 75% Accuracy</li>
-            <li>Perfectionist: Complete a Test with 100% accuracy</li>
+            <p><span id="trainUpper"><span>&#10060;</span></span>Train on the Upper Row</p>
+            <p><span id="trainMiddle"><span>&#10060;</span></span>Train on the Middle Row</p>
+            <p><span id="trainBottom"><span>&#10060;</span></span>Train on the Bottom Row</p>
+            <p><span id="trainNumber"><span>&#10060;</span></span>Train on the Number Key</p>
+            <p><span id="trainPunctuation"><span>&#10060;</span></span>Train on Punctuation</p>
+            <p><span id="ballpark"><span>&#10060;</span></span>Ballpark: Complete a Test with 50% Accuracy</p>
+            <p><span id="getting-better"><span>&#10060;</span></span>Getting Better: Complete a Test with 75% Accuracy</p>
+            <p><span id="perfectionist"><span>&#10060;</span></span>Perfectionist: Complete a Test with 100% accuracy</p>
         </ul>
+
 
     </body>
 
+    <script src="achievements.js"></script>
 
 
 </html>

@@ -1,5 +1,11 @@
-//word file: https://github.com/dwyl/english-words/blob/master/LICENSE.md
+/*
+Author: Vikram Vasudevan
+Date: 9/26/2024
+Description: This JS file creates the functionality of the testing (index) and training html files, allowing users to participate in either timed typing sessions, or word-limited typing sessions, and giving them feedback on their accuracy and speed. 
 
+*/
+
+//initialization of important global variables
 var characters = 0;
 var charactersPassed = 0;
 var charactersMissed = 0;
@@ -22,10 +28,12 @@ var line = 0;
 var currentLines = 0;
 const maxNumRows = 5;
 
-console.log(window.innerHeight);
-console.log("RAHH");
-console.log(localStorage.getItem("numTests"));
 
+var trainOnUpper = false;
+var trainOnMiddle = false;
+var trainOnLower = false;
+var trainOnNumber = false;
+var trainOnPunctuation = false;
 var numTests = 0;
 var numTrains = 0;
 var highWpm = 0;
@@ -47,8 +55,11 @@ var fastest100Text = "No Time";
 var fastest200Text = "No Time";
 
 
-const words = ["aardvark", "abandon", "abandonable", "abandons", "abase", "abased", "abash", "abashed", "abashedly", "abate", "abbey", "abbreviated", "abbreviator", "abdicate", "abdomen", "abhor", "abide", "abiotic", "abjection", "abjectly", "abolition", "abort", "aborted", "aboveground", "abrash", "abrasive", "abridged", "abroad", "absolutist", "absorb", "absorption", "abstain", "abusive", "academic"];
 
+//words taken from this website: https://www.yourdictionary.com/articles/list-adjectives
+const words = ["abusive", "academic", "adorable", "adventurous", "aggressive", "agreeable", "alert", "alive", "amused", "angry", "annoyed", "annoying", "anxious", "arrogant", "ashamed", "attractive", "average", "awful", "bad", "beautiful", "better", "bewildered", "black", "bloody", "blue", "blue-eyed", "blushing", "bored", "brainy", "brave", "breakable", "bright", "busy", "calm", "careful", "cautious", "charming", "cheerful", "clean", "clear", "clever", "cloudy", "clumsy", "colorful", "combative", "comfortable", "concerned", "condemned", "confused", "cooperative", "courageous", "crazy", "creepy", "crowded", "cruel", "curious", "cute", "dark", "dead", "defeated", "defiant", "delightful", "depressed", "determined", "different", "difficult", "disgusted", "distinct", "disturbed", "dizzy", "doubtful", "drab", "dull", "eager", "easy", "elated", "elegant", "embarrassed", "enchanting", "encouraging", "energetic", "enthusiastic", "envious", "evil", "excited", "expensive", "exuberant", "fair", "faithful", "famous", "fancy", "fantastic", "fierce", "filthy", "fine", "foolish", "fragile", "frail", "frantic", "friendly", "frightened", "funny", "gentle", "gifted", "good", "gorgeous", "graceful", "grieving", "grotesque", "glamorous", "good", "grumpy", "handsome", "happy", "healthy", "helpful", "helpless", "hilarious", "homely", "horrible", "hungry", "hurt", "ill", "important", "impossible", "inexpensive", "itchy", "kind", "jealous", "jittery", "joyous", "lazy", "light", "lively", "lonely", "long", "lovely", "lucky", "magnificent", "misty", "modern", "motionless", "muddy", "mushy", "mysterious", "nasty", "naughty", "nervous", "nice", "nutty", "obedient", "obnoxious", "odd", "old-fashioned", "open", "outrageous", "outstanding", "panicky", "perfect", "plain", "pleasant", "poised", "poor", "powerful", "precious", "prickly", "proud", "putrid", "puzzled", "quaint", "real", "relieved", "repulsive", "rich", "scary", "selfish", "shiny", "shy", "silly", "sleepy", "smiling", "smoggy", "sore", "sparkling", "splendid", "spotless", "stormy", "strange", "stupid", "successful", "super", "talented", "tame", "tasty", "tender", "tense", "terrible", "thankful", "thoughtful", "thoughtless", "tired", "tough", "troubled", "ugly", "unusual", "upset", "uptight", "vast", "victorious", "vivacious", "wandering", "wild", "witty", "zany", "zealous"];
+
+//training characters
 const upperRow = ["q", "w", "e", "r", "t", "y", "u", "i", "o", "p"];
 const middleRow = ["a", "s", "d", "f", "g", "h", "j", "k", "l"];
 const bottomRow = ["z", "x", "c", "v", "b", "n", "m"];
@@ -63,20 +74,22 @@ let clockIterator = 0;
 var location;
 
 
-
+//reset timer every time the user leaves the testing/training window
 window.onunload=function(){
     clearInterval(clockTimer);
 }
 
+//initializing starting set-up
 window.onload=function(){
     if(document.URL.includes("index.html")){
         resetVars();
-        randomize(20);
         initialSetColor();
+        buttonColors("time-button");
     }
     
 }
 
+//setting colors of option buttons
 function initialSetColor(){
     document.getElementById(currentOption).style.backgroundColor =  "#ebd600";
     document.getElementById(currentNum).style.backgroundColor =  "#ebd600";
@@ -84,6 +97,7 @@ function initialSetColor(){
 
 }
 
+//changing the button colors and randomizing the correct number of words depending on which button was pressed
 function buttonColors(eventId){
     let firstButton = document.getElementById("firstnum");
     let secondButton = document.getElementById("secondnum");
@@ -95,6 +109,7 @@ function buttonColors(eventId){
     let button = document.getElementById(eventId);
     let tempButton;
     button.style.backgroundColor = "#ebd600";
+    //changing the color of the option/number button
     if(eventId == "words-button" || eventId == "time-button"){
          if(currentOption != eventId){
             tempButton = document.getElementById(currentOption);
@@ -111,7 +126,7 @@ function buttonColors(eventId){
         }
         
     }
-    
+    //randomizing the correct number of words if the words-button was used
     if(currentOption == "words-button"){
         firstButton.innerText = "10";
         secondButton.innerText = "20";
@@ -129,6 +144,7 @@ function buttonColors(eventId){
             }
         }
         else{
+            //the section will hold at most 5 lines. If there are more lines, they will be loaded after other lines are completed. maxNumRows = 5.
             for(let i = 0; i < maxNumRows; i++){
                 randomize(10);
                 currentLines++;
@@ -137,6 +153,8 @@ function buttonColors(eventId){
         
     }
     else if(currentOption == "time-button"){
+        /*if the time button is selected, the section will also hold at most 5 lines and will refresh them as needed
+        if the user */
         firstButton.innerText = "15";
         secondButton.innerText = "30";
         thirdButton.innerText = "60";
@@ -152,16 +170,14 @@ function buttonColors(eventId){
 }
 
 
-
+//removing all of the spans and line breaks that were added during the last test/train
 function resetSpans(){    
     while(document.getElementsByTagName("span")[0] != undefined){
-        console.log(document.getElementsByTagName("span")[0]);
         document.getElementsByTagName("span")[0].remove();
         if(document.URL.includes("index.html")){
             document.getElementsByTagName("br")[1].remove();
         }
         else{
-            console.log("RUNNING THIS");
             document.getElementsByTagName("br")[3].remove();
         }
         if(document.getElementsByTagName("span")[0]=== undefined){
@@ -172,9 +188,11 @@ function resetSpans(){
 }
 
 
-
+//resetting all the variables
 function resetVars(){
-    currentOption = "words-button"
+    if(document.URL.includes("training.html")){
+        currentOption = "words-button"
+    }
     characters = 0;
     charactersPassed = 0;
     currentLines = 0;
@@ -190,10 +208,11 @@ function resetVars(){
     textLength = 0;
     firstTime = true;
     resetSpans();
+    setStatVars();
 }
 
+//creating spans of 10 words that have been randomly selected through the randomize function, and appending them to the document.
 function creatingSpans(text){
-    console.log("Creating SPans");
     let substringOne = "";
     let counter = 0;
     let i = 0;
@@ -210,7 +229,6 @@ function creatingSpans(text){
     newSpan.style.style = "white-space: pre-wrap";
     let newBreak = document.createElement("br");
     newSpan.innerHTML = substringOne;
-    console.log("NEWSPAN: " + newSpan.innerHTML);
     newSpan.style = "white-space: pre-wrap";
     paragraph.appendChild(newSpan);
     paragraph.appendChild(newBreak);
@@ -218,6 +236,7 @@ function creatingSpans(text){
 }
 
 
+//creating a set of x words and then sending them to the creatingSpans function. In general, x, or value, = 10. 
 function randomize(value){
     let testingText = document.getElementById("testing-text");
     let userText = document.getElementById("user-input")
@@ -235,19 +254,35 @@ function randomize(value){
     userText.focus();
 }
 
+//for the training page, determining which set of characters will be tested, and randomly arranging them into words before sending them to the creatingSpans function.
 function specificRow(clickId){
     let givenArray;
+    resetVars();
+    //determining characters
     if(clickId == "upper-row"){
         givenArray = upperRow;
+        trainOnUpper = true;
+        localStorage.setItem("trainOnUpper", trainOnUpper);
     }
     else if(clickId == "middle-row"){
         givenArray = middleRow;
+        trainOnMiddle = true;
+        localStorage.setItem("trainOnMiddle", trainOnMiddle);
     }
     else if(clickId == "bottom-row"){
         givenArray = bottomRow;
+        trainOnLower = true;
+        localStorage.setItem("trainOnLower", trainOnLower);
     }
     else if(clickId == "number-key"){
         givenArray = numberKey;
+        trainOnNumber = true;
+        localStorage.setItem("trainOnNumber", trainOnNumber);
+    }
+    else if(clickId == "punctuation"){
+        givenArray = punctuation;
+        trainOnPunctuation = true;
+        localStorage.setItem("trainOnPunctuation", trainOnPunctuation);
     }
 
     let testingText = document.getElementById("testing-text");
@@ -256,18 +291,15 @@ function specificRow(clickId){
     let iterator = 0;
 
     resetSpans();
-
+    //arranging the characters into groups of 4, and sending them to creatingSpans. 
     for(let k = 0; k < 5; k++){
         text = "";
         for(let j = 0; j < 10; j++){
             for(let i = 0; i < 4; i++){
                 text = text + givenArray[Math.floor(Math.random() * (givenArray.length - 1))];
-                console.log("THIS TEXT: " + text);
-                console.log(j);
             }
             text = text + " ";
         }
-        console.log("WHAT IS THIS TEXT: " + text);
 
         creatingSpans(text);
     }
@@ -282,8 +314,8 @@ function specificRow(clickId){
     document.getElementById("missed").innerHTML = "Characters Missed: ";
 }
 
+//this function creates a clock that keeps track of the time in hours/minutes/seconds. 
 function clock(){
-    console.log("IN THE CLOCK");
     clockIterator++;
     let secondDisplay = "";
     let minuteDisplay = "";
@@ -323,6 +355,7 @@ function clock(){
 
 }
 
+//updating the charactersPassed and charactersMissed table on the screen. 
 function updateStatistics(){
     let passed = document.getElementById("passed");
     let missed = document.getElementById("missed");
@@ -335,7 +368,6 @@ function updateStatistics(){
     else{
         passedTxt = passedTxt.substring(0, 18);
         missedTxt = missedTxt.substring(0, 18);
-        console.log(passedTxt + "POST SPLIT");
         passedTxt = passedTxt + charactersPassed;
         missedTxt = missedTxt + charactersMissed;
     }
@@ -344,11 +376,13 @@ function updateStatistics(){
     
 }
 
+//dealing with removing characters, and decrementing the charactersPassed/charactersMissed values as a result. 
 function remove(event){
     if(event.key == "Backspace"){
         if(characters != 0 || line != 0){
             characters--;
         }
+        //dealing with if the deleted character is the last character on a line, and thus the line must also be decremented.
         if(characters == -1){
             line--;
             characters = document.getElementsByClassName("lines")[line].innerText.length - 1;
@@ -358,8 +392,6 @@ function remove(event){
             charactersPassed--;
         }
         else{
-            console.log(substringOne);
-            console.log("WHat actually is it?: " + substringOne[substringOne.length - 11]);
             charactersMissed--;
         }
         substringOne = substringOne.slice(0, -47);
@@ -367,9 +399,6 @@ function remove(event){
         let x = document.getElementsByClassName("lines")[line];
         
         let txt = x.innerText;
-        console.log("NEW LINE: " + txt);
-        console.log(characters);
-        console.log()
         txt = substringOne + txt.substring(characters);
         x.innerHTML = txt;
         updateStatistics();
@@ -379,8 +408,23 @@ function remove(event){
 
 const pop = document.getElementById("pop-up");
 
-
+//retrieving all of the actual values of statistic/record variables from localstorage.
 function setStatVars(){
+    if(localStorage.getItem("trainOnUpper") != null){
+        trainOnUpper = localStorage.getItem("trainOnUpper");
+    }
+    if(localStorage.getItem("trainOnMiddle") != null){
+        numTests = localStorage.getItem("trainOnMiddle");
+    }
+    if(localStorage.getItem("trainOnLower") != null){
+        numTests = localStorage.getItem("trainOnLower");
+    }
+    if(localStorage.getItem("trainOnNumber") != null){
+        numTests = localStorage.getItem("trainOnNumber");
+    }
+    if(localStorage.getItem("trainOnPunctuation") != null){
+        numTests = localStorage.getItem("trainOnPunctuation");
+    }
     if(localStorage.getItem("numTests") != null){
         numTests = localStorage.getItem("numTests");
     }
@@ -440,7 +484,7 @@ function setStatVars(){
     }
     
 }
-
+//setting all of the statistic/record variables into localstorage.
 function setStats(){
 
     localStorage.setItem("numTests", numTests);
@@ -465,28 +509,27 @@ function setStats(){
 
 }
 
+//opening up the pop-up window that appears at the end of each test.
 function openPop(){
     setStatVars();
-    console.log("IN THE OPENED POP");
     if(document.URL.includes("index.html")){
         numTests++;
     }
     else{
         numTrains++;
     }
+    //calculating wpm and acc and displaying them on screen
     let totalTime = (3600*hour + 60*minute + second)/60;
-    console.log("NUMWORDS: " + numWords);
     let wordsPer = Math.round(numWords/totalTime);
     let acc = Math.round(charactersPassed/(charactersMissed + charactersPassed) * 100);
     document.getElementById("wpmAnswer").innerText = wordsPer;
     document.getElementById("accuracyAnswer").innerText = acc;
     document.getElementById("statsPassedAnswer").innerText = charactersPassed;
     document.getElementById("statsMissedAnswer").innerText = charactersMissed;
+    //checking to see if the test broke any records
     if(document.URL.includes("index.html")){
         if(wordsPer > highWpm){
             highWpm = wordsPer;
-            console.log("IN HERE THE WPM CHANGED");
-            console.log(highWpm);
         }
         if(acc > highAcc){
             highAcc = acc;
@@ -521,7 +564,6 @@ function openPop(){
             }
         }
         else if(currentOption == "words-button"){
-            console.log("IS TIMER TEXT REAL?: " + timerText);
             let thisRunTime = second + 60*minute + 3600*hour;
             if(currentNum == "firstnum"){
                 if(fastestTime10 == "No Time" || thisRunTime < fastestTime10){
@@ -558,20 +600,23 @@ function openPop(){
     }
     setStats();
     clearInterval(clockTimer);
-    console.log(pop.classList);
+    //actually opening up the pop-up
     pop.classList.add("open");
-    console.log("IT'S OPEN NOW");
 }
 
+//closing the pop-up and resetting the screen to the default testing state.
 function closePop(){
     pop.classList.remove("open");
     resetVars();
-    document.getElementById("passed").innerText = "Characters Passed: " +  charactersPassed;
-    document.getElementById("missed").innerText = "Characters Missed: " + charactersMissed;
-    if(document.URL.includes("index.html")){
-        
-        console.log("THIS INCLUDE THING WORKS");
-        numLoops = Number(document.getElementById(currentNum).innerText)/10
+    document.getElementById("passed").innerText = "Characters Passed: ";
+    document.getElementById("missed").innerText = "Characters Missed: ";
+    if(document.URL.includes("index.html")){        
+        if(currentOption == "words-button"){
+            numLoops = Number(document.getElementById(currentNum).innerText)/10
+        }
+        else{
+            numLoops = 5;
+        }
         let text = document.getElementById("testing-text");
         text.innerHTML = "";
         if(currentOption == "words-button"){
@@ -580,7 +625,6 @@ function closePop(){
         else{
             numWords = 0;
         }
-        
         if(numLoops < maxNumRows){
             for(let i = 0; i < numLoops; i++){
                 randomize(10);
@@ -599,12 +643,12 @@ function closePop(){
     }
 }
 
+//changing the color of the background of the text depending on whether or not the user typed the correct character.
 function changeColor(event)
 {
 
     //https://stackoverflow.com/questions/20806059/how-to-change-colors-of-individual-characters-in-a-header
    
-    console.log("CURRENTLINES: " + currentLines);
     let x = document.getElementsByClassName("lines")[line];
     let txt = x.innerText;
     let userFocus = document.getElementById("user-input");
@@ -629,12 +673,9 @@ function changeColor(event)
                 document.getElementsByTagName("br")[1].remove();
             }
             else{
-                console.log("RUNNING THIS");
                 document.getElementsByTagName("br")[3].remove();
             }
             currentLines++;
-            console.log("CURRENT LINES: " + currentLines);
-            console.log("CURRENT LOOPS: " + numLoops);
         }
         else{
             line++;
@@ -642,7 +683,6 @@ function changeColor(event)
         
         x = document.getElementsByClassName("lines")[line]
         txt = x.innerText;
-        console.log(txt);
         characters = 0;
         substringOne = "";
     }
@@ -667,11 +707,9 @@ function changeColor(event)
             
             characters++;
         }
-        console.log(x.innerText.length);
-        //fix this why is it not loading for 100
+        //ending the test
         if(substringOne.length/47 == x.innerText.length - 1 && (line == ((numWords/10) - 1) || line == maxNumRows && currentLines == numLoops)){
             userFocus.blur();
-            console.log("THIS ONE");
             openPop();
         }
         
@@ -680,7 +718,6 @@ function changeColor(event)
 
         if((charactersPassed + charactersMissed) == textLength){
             userFocus.blur();
-            console.log("THIS THING");
             openPop();
         }
         count++;
@@ -693,7 +730,9 @@ function changeColor(event)
 
 //code for training randomization
 
+//randomizing for the words button on the training page
 function trainingRandom(){
+    resetVars();
     resetSpans();
     currentOption = "words-button";
     for(let i = 0; i < 5; i++){
@@ -701,3 +740,4 @@ function trainingRandom(){
         numWords = 50;
     }
 }
+

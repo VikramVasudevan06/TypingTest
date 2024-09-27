@@ -1,5 +1,4 @@
 function displayStats(){
-    console.log("FIRST COUT OF THIS FILE");
     document.getElementById("num-tests").innerText = localStorage.getItem("numTests");
     document.getElementById("num-train").innerText = localStorage.getItem("numTrains");
     document.getElementById("high-wpm").innerText = localStorage.getItem("highWpm");
